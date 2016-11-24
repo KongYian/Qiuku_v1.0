@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="9c4854c1-f3fc-4741-98ca-993dbfdc844b" name="qiuku v1.0" url="http://localhost:80/Qiuku_v1.0">
+        <fileTransfer port="0" accessType="LOCAL" />
+      </webServer>
+    </option>
+  </component>
+</project>
