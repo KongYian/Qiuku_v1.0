@@ -50,6 +50,18 @@ class Mymysqli{
         }
     }
 
+    public function mInsert($sql){
+        $this->sql =$sql;
+        $this->pr = $this->mysqli->query($this->sql) ;
+        if($this->pr){
+            //如果成功的话，则返回当前记录的ID值
+            return mysqli_insert_id($this->mysqli);
+        }else{
+            return false;
+        }
+    }
+
+
     public function close(){
         $this->mysqli->close();
     }

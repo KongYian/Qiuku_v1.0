@@ -5,5 +5,8 @@
  * Date: 2016/11/25
  * Time: 下午5:09
  */
-require_once 'model/Mysession.class.php';
+require_once '../model/Mysession.class.php';
 
+header("Location: ../index.php");
+$msession = new Mysession();
+$msession->logout();

@@ -7,26 +7,22 @@ session_start();
 class Mysession{
     //用数学表达式在线上会报错 60 * min 60*60*24
     const EXPIRE = 86400;
+    const SNAME = 'userinfo';
 
-    private $sname;
-
-    public function __construct($sname){
-        $this->sname = $sname;
-    }
-
-    public function set(){
+    public function set($uid,$name){
         $session_data = array();
-        $session_data['data'] = $this->sname;
+        $session_data['uid'] = $uid;
+        $session_data['data'] = $name;
         $session_data['expire'] = time()+Mysession::EXPIRE;
-        $_SESSION[$this->sname] = $session_data;
+        $_SESSION[Mysession::SNAME] = $session_data;
     }
 
     public function get(){
-        if(isset($_SESSION[$this->sname])){
-            if($_SESSION[$this->sname]['expire']>time()){
-                return $_SESSION[$this->sname];
+        if(isset($_SESSION[Mysession::SNAME])){
+            if($_SESSION[Mysession::SNAME]['expire']>time()){
+                return $_SESSION[Mysession::SNAME]['uid'];
             }else{
-                self::clear($this->sname);
+                $this->clear();
             }
         }
         return false;
@@ -36,12 +32,12 @@ class Mysession{
      * @param string $path
      */
     public function checkSession($path='login.php'){
-        if(!($_SESSION[$this->sname])){
+        if(!($_SESSION[Mysession::SNAME])){
             echo "<script>
                  alert('请先登录');
                  window.location.href='$path';
                 </script>";
-        }elseif(time() - $_SESSION[$this->sname]['expire'] > Mysession::EXPIRE){
+        }elseif(time() - $_SESSION[Mysession::SNAME]['expire'] > Mysession::EXPIRE){
             echo "<script>
                   alert('网页超时，请重新登录');
                   window.location.href='$path';
@@ -51,18 +47,18 @@ class Mysession{
     }
 
     private function clear(){
+        unset($_SESSION[Mysession::SNAME]);
         //清楚客户端的session
-        if(isset($_COOKIE[session_name()]))
-        {
-            setCookie(session_name(),'',time()-3600,'/');
-        }
-        session_destroy();
+//        if(isset($_COOKIE[session_name()]))
+//        {
+//            setCookie(session_name(),'',time()-3600,'/');
+//        }
+//        session_destroy();
         //清楚服务器端的session
-        unset($_SESSION[$this->sname]);
     }
 
-//    public function logout(){
-//        $this->clear();
-//    }
+    public function logout(){
+        $this->clear();
+    }
 }
 

@@ -1,8 +1,7 @@
 <?php
     require_once 'model/Mysession.class.php';
     require_once 'model/Mymysqli.class.php';
-
-    $msession = new Mysession('admin');
+    $msession = new Mysession();
     $msession->checkSession();
 ?>
 
@@ -27,8 +26,6 @@
                 dotColor: '#5cbdaa',
                 lineColor: '#5cbdaa'
             });
-
-
         });
     </script>
 </head>

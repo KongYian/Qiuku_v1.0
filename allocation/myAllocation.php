@@ -1,3 +1,9 @@
+<?php
+require_once '../model/Mysession.class.php';
+require_once '../model/Mymysqli.class.php';
+$msession = new Mysession();
+$msession->checkSession();
+?>
 <html>
 <head>
     <meta charset="utf-8"/>

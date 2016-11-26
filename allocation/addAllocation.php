@@ -1,3 +1,9 @@
+<?php
+require_once '../model/Mysession.class.php';
+require_once '../model/Mymysqli.class.php';
+$msession = new Mysession();
+$msession->checkSession();
+?>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -19,88 +25,77 @@
                 dotColor: '#5cbdaa',
                 lineColor: '#5cbdaa'
             });
-            //验证码
-            createCode();
-            //测试提交，对接程序删除即可
-            $(".submit_btn").click(function(){
-                location.href="javascrpt:;"/*tpa=http://***index.html*/;
-            });
+
+            //配置提交
+            $('#subsettings').click(function () {
+                var $url = "../ajax/allocationAjax.php";
+                //如何将空值以0的数值传过来。
+                var $param = $('form').serialize();
+                console.log($param);
+                //do something 判断非法值无法提交
+                alert($param);
+                $.ajax({
+                    url:$url,
+                    data:$param,
+                    dataType:'json',
+                    type:'post',
+                    success:function (data) {
+                        console.log(data);
+                            alert(data.info);
+                    },
+                    error:function () {
+                        alert('操作失败');
+                    }
+                })
+            })
+
         });
     </script>
 </head>
 <body>
 
-<body class="layui-main">
-
 <hr>
 <h1>监控信息配置</h1>
 <hr>
 <!--这里应该根据Ip、服务器名称来自动填充一些信息-->
-<form class="layui-form layui-main" action="">
-    <!--服务器名称-->
-    <div class="layui-form-item">
+        <!--服务器名称-->
+<form action="">
         <label class="layui-form-label">服务器名称</label>
-        <div class="layui-input-inline">
             <input type="text" name="serverName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
+
         <!--服务器IP-->
         <label class="layui-form-label">服务器IP</label>
-        <div class="layui-input-inline">
             <input type="text" name="serverIp" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
+
         <!--服务器OS-->
         <label class="layui-form-label">服务器OS</label>
-        <div class="layui-input-inline">
             <input type="text" name="serverOs" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <!--应用名称-->
-    <div class="layui-form-item">
+
+         <!--应用名称-->
         <label class="layui-form-label">应用名称</label>
-        <div class="layui-input-inline">
-            <input type="text" name="appname" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
+            <input type="text" name="appName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+
         <!--域名-->
         <label class="layui-form-label">域名</label>
-        <div class="layui-input-inline">
             <input type="text" name="domain" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
+
         <!--应用端口-->
         <label class="layui-form-label">应用端口</label>
-        <div class="layui-input-inline">
-            <input type="text" name="appport" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <!--CPU使用率报警值-->
-    <div class="layui-form-item">
+            <input type="text" name="appPort" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+
+        <!--CPU使用率报警值-->
         <label class="layui-form-label">CPU使用率报警值</label>
-        <div class="layui-input-inline">
-            <input type="text" name="cpucaution" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
-    </div>
+            <input type="text" name="cpuCaution" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
     <!--内存占用率报警值-->
-    <div class="layui-form-item">
         <label class="layui-form-label">内存占用率报警值</label>
-        <div class="layui-input-inline">
-            <input type="text" name="memcaution" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
-    </div>
+            <input type="text" name="memCaution" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
     <!--硬盘占用率报警值-->
-    <div class="layui-form-item">
         <label class="layui-form-label">硬盘占用率报警值</label>
-        <div class="layui-input-inline">
-            <input type="text" name="hdcaution" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
-    </div>
+            <input type="text" name="hdCaution" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
     <!--负载均衡报警值-->
-    <div class="layui-form-item">
         <label class="layui-form-label">负载均衡报警值</label>
-        <div class="layui-input-inline">
-            <input type="text" name="loadaveragecaution" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
-    </div>
+            <input type="text" name="loadAverageCaution" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
     <!--记录的频率-->
-    <div class="layui-form-item">
         <label class="layui-form-label">记录频率</label>
         <div class="layui-input-inline">
             <select name="recordFrequency">
@@ -111,15 +106,11 @@
                 <option value="20">二十分钟</option>
             </select>
         </div>
-    </div>
     <!--创建时间-->
-    <div><input type="hidden" name="createTime" value="<?php echo @date('Y-m-d H:m:s',time());?>"></div>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
+    <input type="hidden" name="createTime" value="<?php echo @date('Y-m-d H:m:s',time());?>"></div>
+
             <button class="layui-btn layui-btn-warm" id="subsettings">保存配置</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-        </div>
-    </div>
 </form>
 </body>
 </html>

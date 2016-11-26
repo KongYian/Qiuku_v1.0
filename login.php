@@ -47,10 +47,12 @@
                             dataType: 'json',
                             type: 'post',
                             success: function (data) {
+                                console.log(data);
                                 if(data.status == 1){
                                     alert(data.info);
                                     window.location.href='./index.php';
                                 }else{
+                                    alert(data.info);
                                     createCode();
                                 }
                             },

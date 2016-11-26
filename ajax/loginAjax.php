@@ -25,9 +25,10 @@ if($name && $pwd){
             'info'=>'用户不存在,请重新登录'
         );
     }else{
+        $uid = $res['userId'];
         if($pwd == $res['userPassword']){
-            $msession = new Mysession($name);
-            $msession->set();
+            $msession = new Mysession();
+            $msession->set($uid,$name);
             $out = array(
                 'status'=>1,
                 'info'=>'登录成功,即将自动跳转',
