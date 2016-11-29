@@ -50,6 +50,17 @@ class Mymysqli{
         }
     }
 
+    //多条查询
+    public function mSelectAll($sql){
+        $this->sql =$sql;
+        $this->pr = $this->mysqli->query($this->sql) ;
+        if($this->pr){
+            return $this->pr;
+        }else{
+            return false;
+        }
+    }
+
     public function mInsert($sql){
         $this->sql =$sql;
         $this->pr = $this->mysqli->query($this->sql) ;
@@ -61,6 +72,30 @@ class Mymysqli{
         }
     }
 
+    public function mDelete($sql){
+        $this->sql =$sql;
+        $this->pr = $this->mysqli->query($this->sql) ;
+        if($this->pr){
+            //如果成功的话，则返回当前记录的ID值
+//            return mysqli_insert_id($this->mysqli);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+    public function mUpdate($sql){
+        $this->sql =$sql;
+        $this->pr = $this->mysqli->query($this->sql) ;
+        if($this->pr){
+            //如果成功的话，则返回当前记录的ID值
+//            return mysqli_insert_id($this->mysqli);
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     public function close(){
         $this->mysqli->close();

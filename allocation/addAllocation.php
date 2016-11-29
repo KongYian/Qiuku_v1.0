@@ -26,9 +26,13 @@ $msession->checkSession();
                 lineColor: '#5cbdaa'
             });
 
+
+
             //配置提交
-            $('#subsettings').click(function () {
-                var $url = "../ajax/allocationAjax.php";
+            $('#subsettings').click(function (ev) {
+                ev.stopPropagation();
+                ev.preventDefault();
+                var $url = "../ajax/addAllocationAjax.php";
                 //如何将空值以0的数值传过来。
                 var $param = $('form').serialize();
                 console.log($param);
@@ -41,7 +45,7 @@ $msession->checkSession();
                     type:'post',
                     success:function (data) {
                         console.log(data);
-                            alert(data.info);
+                        alert(data.info);
                     },
                     error:function () {
                         alert('操作失败');
@@ -59,7 +63,7 @@ $msession->checkSession();
 <hr>
 <!--这里应该根据Ip、服务器名称来自动填充一些信息-->
         <!--服务器名称-->
-<form action="">
+<form>
         <label class="layui-form-label">服务器名称</label>
             <input type="text" name="serverName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
 
@@ -75,13 +79,19 @@ $msession->checkSession();
         <label class="layui-form-label">应用名称</label>
             <input type="text" name="appName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
 
+        <!--应用描述-->
+        <label class="layui-form-label">应用描述</label>
+            <input type="text" name="appDescription" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+
         <!--域名-->
         <label class="layui-form-label">域名</label>
             <input type="text" name="domain" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
 
+
         <!--应用端口-->
         <label class="layui-form-label">应用端口</label>
             <input type="text" name="appPort" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+
 
         <!--CPU使用率报警值-->
         <label class="layui-form-label">CPU使用率报警值</label>
@@ -108,9 +118,8 @@ $msession->checkSession();
         </div>
     <!--创建时间-->
     <input type="hidden" name="createTime" value="<?php echo @date('Y-m-d H:m:s',time());?>"></div>
-
-            <button class="layui-btn layui-btn-warm" id="subsettings">保存配置</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button id="subsettings">保存配置</button>
+            <button type="reset">重置</button>
 </form>
 </body>
 </html>

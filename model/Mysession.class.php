@@ -31,7 +31,7 @@ class Mysession{
     /**
      * @param string $path
      */
-    public function checkSession($path='login.php'){
+    public function checkSession($path='../login.php'){
         if(!($_SESSION[Mysession::SNAME])){
             echo "<script>
                  alert('请先登录');

@@ -13,12 +13,13 @@ $msession = new Mysession();
 $uid = $msession->get();
 
 //获取到的post值
-implode('|',$_POST);
+//implode('|',$_POST);
 
 $allocation['serverName'] = $_POST['serverName'];
 $allocation['serverIp'] = $_POST['serverIp'];
 $allocation['serverOs'] = $_POST['serverOs'];
 $allocation['appName'] = $_POST['appName'];
+$allocation['appDescription'] = $_POST['appDescription'];
 $allocation['domain'] = $_POST['domain'];
 $allocation['appPort'] = $_POST['appPort'];
 $allocation['cpuCaution'] = $_POST['cpuCaution'];
@@ -34,8 +35,8 @@ $mysqli = new Mymysqli();
 $sql = "INSERT INTO `ob_serverInfo`(`serverName`,`serverIp`,`serverOs`) ";
 $sql .= " VALUES('{$allocation['serverName']}','{$allocation['serverIp']}','{$allocation['serverOs']}')";
 $sid = $mysqli->mInsert($sql);
-$asql = "INSERT INTO `ob_allocationInfo` ( `userId`,`serverId`,`appName`,`domain`,`appPort`,`cpuCaution`,`memCaution`,`hdCaution`,`loadAverageCaution`,`recordFrequency`,`createTime`,`modifyTime`,`status`)";
-$asql .= " VALUES('{$uid}','{$sid}','{$allocation['appName'] }','{$allocation['domain']}','{$allocation['appPort']}','{$allocation['cpuCaution']}','{$allocation['memCaution']}','{$allocation['hdCaution']}','{$allocation['loadAverageCaution']}','{$allocation['recordFrequency']}','{$allocation['createTime']}','{$allocation['createTime']}','0') ";
+$asql = "INSERT INTO `ob_allocationInfo` ( `userId`,`serverId`,`appName`,`appDescription`,`domain`,`appPort`,`cpuCaution`,`memCaution`,`hdCaution`,`loadAverageCaution`,`recordFrequency`,`createTime`,`modifyTime`,`status`)";
+$asql .= " VALUES('{$uid}','{$sid}','{$allocation['appName'] }','{$allocation['appDescription']}','{$allocation['domain']}','{$allocation['appPort']}','{$allocation['cpuCaution']}','{$allocation['memCaution']}','{$allocation['hdCaution']}','{$allocation['loadAverageCaution']}','{$allocation['recordFrequency']}','{$allocation['createTime']}','{$allocation['createTime']}','0') ";
 $aid = $mysqli->mInsert($asql);
 if($sid && $aid){
     $out = array(
